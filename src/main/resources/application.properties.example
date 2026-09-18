@@ -3,7 +3,7 @@ spring.application.name=Progetto-Settimanale-6
 # Database
 spring.datasource.url=jdbc:postgresql://localhost:5432/PROGETTO-SETTIMANALE-JAVA6
 spring.datasource.username=postgres
-spring.datasource.password=1234
+spring.datasource.password=LA_TUA_PASSWORD
 
 spring.jpa.hibernate.ddl-auto=create
 spring.jpa.show-sql=false
@@ -12,8 +12,8 @@ spring.jpa.open-in-view=false
 # Mail (Mailtrap)
 spring.mail.host=sandbox.smtp.mailtrap.io
 spring.mail.port=587
-spring.mail.username=9583b3caa703b2
-spring.mail.password=29bfdf5fba12ce
+spring.mail.username=IL_TUO_USERNAME_MAILTRAP
+spring.mail.password=LA_TUA_PASSWORD_MAILTRAP
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
 
@@ -27,12 +27,12 @@ app.mail.mittente=noreply@chatai.local
 app.cors.allowed-origin=http://localhost:5173
 
 # JWT
-jwt.secret=LA_TUA_CHIAVE_BASE64_MIN_32_BYTE
+jwt.secret=UN_SEGRETO_LUNGO_ALMENO_32_CARATTERI
 jwt.expiration=86400000
 
 # LLM (OpenRouter)
 app.llm.base-url=https://openrouter.ai/api/v1
-app.llm.api-key=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
+app.llm.api-key=LA_TUA_API_KEY_OPENROUTER
 app.llm.model=inclusion-ai/ling-v3-flash-vl:free
 app.llm.max-tokens=256
 app.llm.reasoning=false
