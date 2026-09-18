@@ -1,0 +1,82 @@
+.finestra-chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.chat-vuota {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  color: var(--muted);
+}
+.chat-vuota span { font-size: 3rem; }
+.chat-vuota p    { font-size: 1rem; }
+
+.bubble-wrap {
+  display: flex;
+}
+.bubble-wrap.mio { justify-content: flex-end; }
+.bubble-wrap.suo { justify-content: flex-start; }
+
+.bubble {
+  max-width: 65%;
+  padding: .6rem .9rem;
+  border-radius: 16px;
+  font-size: .92rem;
+  line-height: 1.45;
+  position: relative;
+  word-break: break-word;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+
+.bubble-me {
+  background: var(--bubble-me);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.bubble-in {
+  background: var(--bubble-in);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+}
+
+.bubble-ora {
+  display: block;
+  font-size: .68rem;
+  margin-top: .3rem;
+  opacity: .65;
+  text-align: right;
+}
+
+.stato-msg { font-size: .75rem; }
+
+/* typing indicator */
+.digitando {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: .65rem .9rem;
+}
+.digitando span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: pulse 1.2s infinite;
+}
+.digitando span:nth-child(2) { animation-delay: .2s; }
+.digitando span:nth-child(3) { animation-delay: .4s; }
+
+@keyframes pulse {
+  0%, 100% { opacity: .3; transform: scale(.8); }
+  50%       { opacity: 1;  transform: scale(1); }
+}

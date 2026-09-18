@@ -1,0 +1,221 @@
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: var(--sidebar);
+  display: flex;
+  flex-direction: column;
+  color: #e0e0f0;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: 1rem 1rem .8rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.sidebar-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: .95rem;
+  flex-shrink: 0;
+}
+
+.sidebar-nome {
+  flex: 1;
+  font-weight: 600;
+  font-size: .9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-actions { display: flex; gap: .25rem; }
+
+.icon-btn {
+  background: rgba(255,255,255,.08);
+  color: #ccc;
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  font-size: .85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-btn:hover { background: rgba(255,255,255,.15); }
+
+.sidebar-title {
+  padding: .9rem 1rem .4rem;
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,.35);
+  font-weight: 600;
+}
+
+.sidebar-lista {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-vuota {
+  font-size: .82rem;
+  color: rgba(255,255,255,.3);
+  text-align: center;
+  padding: 2rem 1.5rem;
+  line-height: 1.6;
+}
+
+.conv-item {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .7rem 1rem;
+  background: transparent;
+  color: #ccd;
+  text-align: left;
+  border-radius: 0;
+  position: relative;
+  transition: background .15s;
+}
+.conv-item:hover   { background: rgba(255,255,255,.06); }
+.conv-item.attiva  { background: rgba(108,99,255,.25); color: #fff; }
+
+.conv-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(108,99,255,.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.conv-info {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.conv-nome {
+  font-weight: 600;
+  font-size: .88rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conv-preview {
+  font-size: .78rem;
+  color: rgba(255,255,255,.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conv-badge {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 99px;
+  font-size: .72rem;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+}
+
+.conv-online {
+  position: absolute;
+  bottom: 10px;
+  left: 42px;
+  width: 9px;
+  height: 9px;
+  background: #4cde80;
+  border-radius: 50%;
+  border: 2px solid var(--sidebar);
+}
+
+
+.nuova-chat-form {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  padding: .6rem .75rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.nuova-chat-row {
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+}
+
+.nuova-chat-row input {
+  flex: 1;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  color: #e0e0f0;
+  font-size: .88rem;
+  padding: .4rem .7rem;
+}
+.nuova-chat-row input::placeholder { color: rgba(255,255,255,.3); }
+.nuova-chat-row input:focus { border-color: var(--accent); outline: none; }
+
+.nuova-chat-btn {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.nuova-chat-btn:hover { opacity: .85; }
+
+.nuova-chat-suggerimenti {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.1);
+}
+.nuova-chat-suggerimenti li {
+  padding: .45rem .75rem;
+  font-size: .88rem;
+  color: #ccd;
+  cursor: pointer;
+  background: rgba(255,255,255,.05);
+  transition: background .1s;
+}
+.nuova-chat-suggerimenti li:hover {
+  background: rgba(108,99,255,.35);
+  color: #fff;
+}
+
+.nuova-chat-errore {
+  color: #ff8fa3;
+  font-size: .78rem;
+  padding-left: .2rem;
+}

@@ -1,0 +1,55 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f0f2f5;
+  --surface:   #ffffff;
+  --sidebar:   #1e1e2e;
+  --accent:    #6c63ff;
+  --accent-2:  #48c6ef;
+  --text:      #1a1a2e;
+  --muted:     #8888aa;
+  --border:    #e2e5ef;
+  --bubble-me: #6c63ff;
+  --bubble-in: #ffffff;
+  --danger:    #ff6b6b;
+  --radius:    14px;
+  --shadow:    0 4px 24px rgba(108,99,255,.10);
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100dvh;
+  overflow: hidden;
+}
+
+#root { height: 100dvh; display: flex; flex-direction: column; }
+
+/* ── scrollbar ─────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+/* ── buttons ────────────────────────────────────────────── */
+button {
+  cursor: pointer;
+  border: none;
+  font: inherit;
+  transition: opacity .15s, transform .1s;
+}
+button:active { transform: scale(.97); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+
+/* ── inputs ─────────────────────────────────────────────── */
+input, textarea {
+  font: inherit;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: .65rem 1rem;
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color .2s;
+}
+input:focus, textarea:focus { border-color: var(--accent); }
