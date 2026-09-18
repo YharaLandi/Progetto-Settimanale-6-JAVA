@@ -12,4 +12,8 @@ public record Aggiornamento(String tipo, UUID conversazione, String utente, List
     public static Aggiornamento scrive(UUID conversazione, String chi) {
         return new Aggiornamento("SCRIVE", conversazione, chi, List.of());
     }
+
+    public static Aggiornamento presenza(String utente) {
+        return new Aggiornamento("PRESENZA", null, utente, List.of());
+    }
 }

@@ -14,6 +14,7 @@ export default function ChatPage({ io, nomeCompleto, onLogout }) {
   const [staScrivendo, setStaScrivendo] = useState(false);
   const [mostraStats, setMostraStats] = useState(false);
   const timerScrittura = useRef(null);
+  const selezionataRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -30,6 +31,7 @@ export default function ChatPage({ io, nomeCompleto, onLogout }) {
   }
 
   async function seleziona(conv) {
+    selezionataRef.current = conv;
     setSelezionata(conv);
     if (!messaggi[conv.idConversazione]) {
       try {
@@ -58,7 +60,20 @@ export default function ChatPage({ io, nomeCompleto, onLogout }) {
       clearTimeout(timerScrittura.current);
       timerScrittura.current = setTimeout(() => setStaScrivendo(false), 4000);
     }
+    if (agg.tipo === 'PRESENZA') {
+      caricaConversazioni();
+    }
     if (agg.tipo === 'LETTI') {
+      const idConv = agg.conversazione;
+      const idLetti = new Set(agg.messaggi);
+      setMessaggi((prev) => {
+        const lista = prev[idConv];
+        if (!lista) return prev;
+        return {
+          ...prev,
+          [idConv]: lista.map((m) => idLetti.has(m.id) ? { ...m, stato: 'LETTO' } : m),
+        };
+      });
       caricaConversazioni();
     }
   }
@@ -110,7 +125,8 @@ export default function ChatPage({ io, nomeCompleto, onLogout }) {
           </div>
         )}
 
-        <FinestraChat messaggi={msgsAttivi} io={io} staScrivendo={staScrivendo} />
+        <FinestraChat messaggi={msgsAttivi} io={io} staScrivendo={staScrivendo}
+          onClick={() => selezionata && segnaLetti(selezionata.idConversazione)} />
 
         <InputMessaggio
           destinatario={selezionata?.controparte}

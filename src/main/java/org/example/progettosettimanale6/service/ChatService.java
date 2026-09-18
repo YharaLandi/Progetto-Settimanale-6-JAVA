@@ -12,11 +12,14 @@ import org.example.progettosettimanale6.repository.ConversazioneRepository;
 import org.example.progettosettimanale6.repository.MessaggioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Limit;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -154,6 +157,24 @@ public class ChatService {
                 })
                 .sorted(Comparator.comparing(ConversazioneRiepilogo::controparte))
                 .toList();
+    }
+
+    @EventListener
+    @Transactional(readOnly = true)
+    public void suConnessione(SessionConnectedEvent evento) {
+        if (evento.getUser() == null) return;
+        String username = evento.getUser().getName();
+        conversazioni.usernameContatti(username).forEach(controparte ->
+                template.convertAndSendToUser(controparte, AGGIORNAMENTI, Aggiornamento.presenza(username)));
+    }
+
+    @EventListener
+    @Transactional(readOnly = true)
+    public void suDisconnessione(SessionDisconnectEvent evento) {
+        if (evento.getUser() == null) return;
+        String username = evento.getUser().getName();
+        conversazioni.usernameContatti(username).forEach(controparte ->
+                template.convertAndSendToUser(controparte, AGGIORNAMENTI, Aggiornamento.presenza(username)));
     }
 
     public Optional<Conversazione> trova(Utente a, Utente b) {

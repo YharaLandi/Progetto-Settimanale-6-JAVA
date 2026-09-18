@@ -18,4 +18,7 @@ public interface ConversazioneRepository extends JpaRepository<Conversazione, UU
 
     @Query("select count(c) from Conversazione c where c.uno.username = :username or c.altro.username = :username")
     long contaConversazioni(String username);
+
+    @Query("select case when c.uno.username = :username then c.altro.username else c.uno.username end from Conversazione c where c.uno.username = :username or c.altro.username = :username")
+    List<String> usernameContatti(String username);
 }

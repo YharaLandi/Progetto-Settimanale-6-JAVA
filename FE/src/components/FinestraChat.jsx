@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import './FinestraChat.css';
 
-export default function FinestraChat({ messaggi, io, staScrivendo }) {
+export default function FinestraChat({ messaggi, io, staScrivendo, onClick }) {
   const fondo = useRef(null);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function FinestraChat({ messaggi, io, staScrivendo }) {
   }
 
   return (
-    <div className="finestra-chat">
+    <div className="finestra-chat" onClick={onClick}>
       {messaggi.map((m) => {
         const mio = m.mittente === io;
         return (

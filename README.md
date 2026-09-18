@@ -5,7 +5,7 @@ Chat in tempo reale tra utenti con suggerimenti AI e report statistico via email
 ## Funzionalità
 
 - **Chat real-time** tra utenti autenticati tramite WebSocket (STOMP)
-- **Suggerimento AI** — chiede a Claude di proporre il prossimo messaggio (non salvato nel DB)
+- **Suggerimento AI** — chiede a un modello LLM (via OpenRouter) di proporre il prossimo messaggio (non salvato nel DB)
 - **Statistiche personali** — messaggi inviati, ricevuti, chat aperte
 - **Email statistiche** — report in formato HTML via Thymeleaf
 
@@ -15,7 +15,8 @@ Chat in tempo reale tra utenti con suggerimenti AI e report statistico via email
 |-----------|--------------------------------------|
 | Backend   | Spring Boot 4.1.1, Java 25           |
 | WebSocket | STOMP + SimpMessagingTemplate        |
-| AI        | Claude via OpenRouter (RestClient)   |
+| Auth      | Spring Security + JWT (BCrypt)       |
+| AI        | LLM via OpenRouter (RestClient)      |
 | Database  | PostgreSQL + Spring Data JPA         |
 | Email     | Spring Mail + Thymeleaf              |
 | Frontend  | React 19, Vite, @stomp/stompjs       |
@@ -37,32 +38,22 @@ CREATE DATABASE chatai;
 
 ### 2. Backend
 
-Crea `src/main/resources/application.properties` con:
+Copia il template e riempi i valori reali:
 
-```properties
-spring.application.name=Progetto-Settimanale-6
+```bash
+cp src/main/resources/application.properties.example src/main/resources/application.properties
+```
 
-spring.datasource.url=jdbc:postgresql://localhost:5432/chatai
-spring.datasource.username=postgres
-spring.datasource.password=1234
+Valori da sostituire nel file copiato:
+- `spring.datasource.password` — password di PostgreSQL
+- `spring.mail.username` / `spring.mail.password` — credenziali Mailtrap (sandbox SMTP)
+- `app.llm.api-key` — API key da [openrouter.ai/settings/keys](https://openrouter.ai/settings/keys)
+- `jwt.secret` — stringa Base64 di almeno 32 byte (puoi generarla con `openssl rand -base64 32`)
 
-spring.jpa.hibernate.ddl-auto=create-drop
-spring.jpa.show-sql=false
+Il database deve chiamarsi `PROGETTO-SETTIMANALE-JAVA6` (o aggiorna l'URL nel file):
 
-spring.mail.host=sandbox.smtp.mailtrap.io
-spring.mail.port=587
-spring.mail.username=<USERNAME_MAILTRAP>
-spring.mail.password=<PASSWORD_MAILTRAP>
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
-
-app.mail.mittente=noreply@chatai.local
-app.base-url=http://localhost:8080
-
-app.llm.url=https://openrouter.ai/api/v1
-app.llm.key=<API_KEY_OPENROUTER>
-app.llm.model=anthropic/claude-haiku-4-5-20251001
-app.llm.max-tokens=512
+```sql
+CREATE DATABASE "PROGETTO-SETTIMANALE-JAVA6";
 ```
 
 Avvio:
@@ -89,7 +80,7 @@ Progetto-Settimanale-6/
 │   └── main/java/org/example/progettosettimanale6/
 │       ├── model/                # Utente, Conversazione, Messaggio
 │       ├── repository/           # JpaRepository
-│       ├── service/              # ChatService, ClaudeService, StatisticheMailService
+│       ├── service/              # ChatService, LlmService, StatisticheMailService
 │       ├── web/                  # AuthController, ChatController, ...
 │       └── config/               # StompConfig, CorsConfig, LlmConfig
 ├── FE/                           # React frontend
@@ -104,16 +95,21 @@ Progetto-Settimanale-6/
 
 | Metodo | Endpoint                  | Descrizione                             |
 |--------|---------------------------|-----------------------------------------|
-| POST   | `/api/auth/login`         | Login → token                           |
-| WS     | `/ws` (STOMP)             | Connessione WebSocket                   |
-| MSG    | `/app/invia`              | Invia messaggio                         |
-| MSG    | `/app/scrive`             | Indicatore di scrittura                 |
-| MSG    | `/app/letti`              | Segna messaggi come letti               |
-| GET    | `/api/chat/conversazioni` | Lista conversazioni con non letti       |
-| GET    | `/api/chat/cronologia`    | Storico messaggi con un utente          |
-| POST   | `/api/suggerisci`         | Chiede all'AI un suggerimento           |
-| GET    | `/api/statistiche`        | Statistiche personali                   |
-| POST   | `/api/statistiche/email`  | Invia statistiche via email             |
+| Metodo | Endpoint                          | Descrizione                             |
+|--------|-----------------------------------|-----------------------------------------|
+| POST   | `/api/auth/registra`              | Registrazione nuovo utente              |
+| POST   | `/api/auth/login`                 | Login → token                           |
+| POST   | `/api/auth/logout`                | Logout (204)                            |
+| GET    | `/api/auth/utenti?q=`             | Ricerca utenti (autocomplete)           |
+| WS     | `/ws` (STOMP)                     | Connessione WebSocket                   |
+| MSG    | `/app/chat.invia`                 | Invia messaggio                         |
+| POST   | `/api/chat/nuova`                 | Avvia conversazione con un utente       |
+| GET    | `/api/conversazioni`              | Lista conversazioni con non letti       |
+| GET    | `/api/chat/{id}/messaggi`         | Storico messaggi paginato               |
+| POST   | `/api/chat/{id}/segna-letti`      | Segna messaggi come letti               |
+| POST   | `/api/suggerimento`               | Chiede all'AI un suggerimento           |
+| GET    | `/api/statistiche`                | Statistiche personali                   |
+| POST   | `/api/statistiche/invia-email`    | Invia statistiche via email (204)       |
 
 ## Note di sicurezza
 
