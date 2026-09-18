@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Le tue statistiche ChatAI</title>
+</head>
+<body style="margin:0; padding:24px 0; background:#f0f2f5;
+             font-family: Arial, Helvetica, sans-serif; color:#1a1a2e;">
+
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"
+       align="center" style="width:600px; max-width:100%; background:#ffffff;
+       border:1px solid #e2e5ef; border-radius:12px; overflow:hidden;">
+
+  <!-- Header -->
+  <tr>
+    <td style="background:#6c63ff; padding:28px 32px;">
+      <h1 style="margin:0; font-size:22px; color:#ffffff;">
+        Le tue statistiche ChatAI
+      </h1>
+      <p th:text="'Ciao, ' + ${nome} + '!'"
+         style="margin:8px 0 0; font-size:15px; color:#e8e6ff;">
+        Ciao, Utente!
+      </p>
+    </td>
+  </tr>
+
+  <!-- Stats grid -->
+  <tr>
+    <td style="padding:32px;">
+      <p style="margin:0 0 20px; font-size:15px; line-height:1.5; color:#444;">
+        Ecco il riepilogo della tua attività su ChatAI al
+        <strong th:text="${data}">01/01/2025</strong>:
+      </p>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td style="width:33%; padding:0 6px 0 0;">
+            <div style="background:#f8f7ff; border-radius:10px; padding:20px 16px; text-align:center;">
+              <div style="font-size:28px; margin-bottom:8px;">📤</div>
+              <div th:text="${stats.messaggiInviati}"
+                   style="font-size:32px; font-weight:bold; color:#6c63ff;">0</div>
+              <div style="font-size:12px; color:#8888aa; margin-top:4px;">Messaggi inviati</div>
+            </div>
+          </td>
+          <td style="width:33%; padding:0 3px;">
+            <div style="background:#f8f7ff; border-radius:10px; padding:20px 16px; text-align:center;">
+              <div style="font-size:28px; margin-bottom:8px;">📥</div>
+              <div th:text="${stats.messaggiRicevuti}"
+                   style="font-size:32px; font-weight:bold; color:#6c63ff;">0</div>
+              <div style="font-size:12px; color:#8888aa; margin-top:4px;">Messaggi ricevuti</div>
+            </div>
+          </td>
+          <td style="width:33%; padding:0 0 0 6px;">
+            <div style="background:#f8f7ff; border-radius:10px; padding:20px 16px; text-align:center;">
+              <div style="font-size:28px; margin-bottom:8px;">💬</div>
+              <div th:text="${stats.chatAperte}"
+                   style="font-size:32px; font-weight:bold; color:#6c63ff;">0</div>
+              <div style="font-size:12px; color:#8888aa; margin-top:4px;">Chat aperte</div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- Footer -->
+  <tr>
+    <td style="padding:16px 32px 24px; border-top:1px solid #e2e5ef;">
+      <p style="margin:0; font-size:12px; color:#8888aa; line-height:1.5;">
+        Ricevi questo messaggio perché hai richiesto le statistiche da ChatAI.
+      </p>
+    </td>
+  </tr>
+
+</table>
+
+</body>
+</html>
